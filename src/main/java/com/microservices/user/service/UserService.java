@@ -16,9 +16,11 @@ import java.util.UUID;
 public class UserService {
 
     private UserRepository userRepository;
+    private JWTService jwtService;
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, JWTService jwtService){
         this.userRepository= userRepository;
+        this.jwtService = jwtService;
     }
     public User addUser(UserDto userDto) {
 
@@ -44,7 +46,7 @@ public class UserService {
         user.setUserName(userDto.getUsername());
         user.setPassword(userDto.getPassword());
 
-        user.setRole("user");
+        user.setRole("ROLE_USER");
         user.setId(id);
 
        return  userRepository.save(user);
@@ -58,9 +60,9 @@ public class UserService {
         );
         boolean checkpw = BCrypt.checkpw(loginDto.getPassword(), user.getPassword());
         if(checkpw){
-            return "user logged in successfully";
+           return jwtService.generateToken(user.getUserName());
         }
-      return "Enter correct password";
+      return null;
     }
 
     public User updateUser(UserDto userDto, String userId) {

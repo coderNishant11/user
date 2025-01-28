@@ -3,6 +3,7 @@ package com.microservices.user.controller;
 import com.microservices.user.entity.User;
 import com.microservices.user.payload.ErrorDto;
 import com.microservices.user.payload.LoginDto;
+import com.microservices.user.payload.TokenDto;
 import com.microservices.user.payload.UserDto;
 import com.microservices.user.service.UserService;
 import jakarta.validation.Valid;
@@ -38,11 +39,16 @@ BindingResult result){
 
 }
     @GetMapping("/signIn")
-    public ResponseEntity<String> userLogin(@RequestBody LoginDto loginDto){
-        String s = userService.loginUser(loginDto);
+    public ResponseEntity<?> userLogin(@RequestBody LoginDto loginDto){
+        String token = userService.loginUser(loginDto);
+        if(token== null){
+            return new ResponseEntity<>("Invalid password", HttpStatus.FORBIDDEN);
+        }
+
+        TokenDto jwt = new TokenDto(token, "JWT");
+        return new ResponseEntity<>(jwt, HttpStatus.OK);
 
 
-        return new ResponseEntity<>(s, HttpStatus.OK);
     }
 
     @PutMapping("/updateUser")
