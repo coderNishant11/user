@@ -12,10 +12,10 @@ import java.util.UUID;
 public class User {
     @Id
     @Column(name = "id", nullable = false)
-    private UUID id;
+    private String id;
 
     @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    private String userName;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -23,38 +23,45 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name="name", nullable=false)
+    @Column(name = "name", nullable = false)
     private String name;
 
 
-    @Column(name="role", nullable = false)
+    @Column(name = "role", nullable = false)
     private String role;
 
 
+    public User(String userName, String email, String password,String name, String role, String id) {
 
-
-    public User(String username, String email, String password) {
-
-        this.username = username;
+        this.userName = userName;
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.role = role;
+        this.id = id;
     }
 
     public User() {
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public void setName(String name){
-        this.name= name;
+
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getRole(){
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRole() {
         return role;
 
     }
-    public void setRole(String Role){
+
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -74,20 +81,18 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+
 
 }
